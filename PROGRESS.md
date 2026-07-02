@@ -19,7 +19,7 @@ Source specs: `claude-code-prompt.md` (final prompt — wins on conflicts) + `po
 
 - [x] **Phase 0 — Setup**: local skills installed, progress file, Next.js (App Router) + TS + Tailwind 4 scaffold, deps (framer-motion, @tanstack/react-query, resend)
 - [x] **Phase 1 — Design system + i18n**: theme tokens, fonts, global styles, CZ/EN dictionaries + context + header toggle, motion primitives w/ `prefers-reduced-motion`
-- [ ] **Phase 2 — Hero + About**: full-viewport hero w/ animated background + parallax, scroll cue; About w/ duotone headshot slot
+- [x] **Phase 2 — Hero + About**: full-viewport hero w/ animated background + parallax, scroll cue; About w/ duotone headshot slot
 - [ ] **Phase 3 — Timeline**: scroll-driven line draw, glowing nodes, expandable highlights, newest-first
 - [ ] **Phase 4 — Skills + What I Do**: grouped animated stack pills; 4 pillar cards incl. jachim-kucera-tesarstvi.cz case card + kzphoto.cz teaser
 - [ ] **Phase 5 — Z.I.B.B.Y + Contact + Footer**: terminal-style spotlight (media-extensible), contact form → API route → Resend, direct contact fallback, minimal footer

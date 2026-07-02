@@ -60,3 +60,33 @@ body {
 @utility hairline {
   border-color: var(--color-line);
 }
+
+/* Hero atmosphere: two blurred color fields drifting very slowly */
+@keyframes drift-a {
+  from {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(5%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate3d(4%, 5%, 0) scale(1.08);
+  }
+  to {
+    transform: translate3d(-5%, -6%, 0) scale(1);
+  }
+}
+
+/* Faint dot grid, fading toward the edges */
+@utility dot-grid {
+  background-image: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.05) 1px,
+    transparent 1px
+  );
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent);
+}
