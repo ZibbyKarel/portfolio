@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import { GitHubStats } from "@/components/GitHubStats";
+import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
-import { GitHubStats } from "@/components/GitHubStats";
+import Image from "next/image";
+import { Logo } from "../Logo";
 
 /**
  * Headshot with a duotone treatment: grayscale + contrast underneath,
@@ -28,10 +29,7 @@ function Headshot({ hasPhoto, alt }: { hasPhoto: boolean; alt: string }) {
             aria-hidden="true"
             className="absolute inset-0 bg-gradient-to-tr from-[#5b4bd4]/60 via-transparent to-accent/50 mix-blend-color"
           />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-void/20"
-          />
+          <div aria-hidden="true" className="absolute inset-0 bg-void/20" />
         </>
       ) : (
         <div
@@ -43,7 +41,7 @@ function Headshot({ hasPhoto, alt }: { hasPhoto: boolean; alt: string }) {
             aria-hidden="true"
             className="font-mono text-6xl font-bold text-ink/20"
           >
-            kz<span className="text-accent/40">_</span>
+            <Logo />
           </span>
         </div>
       )}
@@ -72,7 +70,10 @@ export function About({ hasPhoto }: { hasPhoto: boolean }) {
           </p>
           <GitHubStats />
         </Reveal>
-        <Reveal delay={0.2} className="justify-self-center md:justify-self-end">
+        <Reveal
+          delay={0.2}
+          className="w-full max-w-sm justify-self-center md:justify-self-end"
+        >
           <Headshot hasPhoto={hasPhoto} alt={t.about.photoAlt} />
         </Reveal>
       </div>

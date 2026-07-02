@@ -18,6 +18,10 @@
   --color-accent: #00d4ff;
   --color-accent-dim: rgb(0 212 255 / 0.35);
   --color-accent-faint: rgb(0 212 255 / 0.08);
+  /* Secondary accent: violet, reserved for the education timeline */
+  --color-violet: #8b7cff;
+  --color-violet-dim: rgb(139 124 255 / 0.35);
+  --color-violet-faint: rgb(139 124 255 / 0.08);
 }
 
 html {
@@ -54,6 +58,14 @@ body {
 
 @utility glow-accent-soft {
   box-shadow: 0 0 32px var(--color-accent-faint);
+}
+
+@utility glow-violet {
+  box-shadow: 0 0 20px var(--color-violet-dim), 0 0 60px var(--color-violet-faint);
+}
+
+@utility glow-violet-soft {
+  box-shadow: 0 0 32px var(--color-violet-faint);
 }
 
 /* Hairline divider between sections */

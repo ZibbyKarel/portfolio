@@ -21,6 +21,7 @@ export type Dictionary = {
     name: string;
     role: string;
     tagline: string;
+    downloadCv: string;
     scrollCue: string;
   };
   about: {
@@ -31,7 +32,10 @@ export type Dictionary = {
   timeline: {
     title: string;
     expandHint: string;
-    entries: TimelineEntry[];
+    careerTitle: string;
+    educationTitle: string;
+    career: TimelineEntry[];
+    education: TimelineEntry[];
   };
   skills: {
     title: string;
@@ -95,7 +99,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       name: "Karel Zíbar",
       role: "Senior Frontend Developer",
       tagline:
-        "12+ years building interfaces for products used by millions — now building my own AI agent OS on the side.",
+        "12+ years building web applications used by thousands of users — now building my own AI agent OS on the side.",
+      downloadCv: "Download CV",
       scrollCue: "scroll",
     },
     about: {
@@ -106,15 +111,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     timeline: {
       title: "Experience",
       expandHint: "Select an entry to see highlights",
-      entries: [
+      careerTitle: "Career",
+      educationTitle: "Education",
+      career: [
         {
           period: "05/2023 – 04/2026",
           role: "Senior Front-end Developer",
           company: "Mews",
           bullets: [
-            "Led the refactor of a real-time reservations timeline — virtualization, lazy loading, performance",
-            "Mentored junior developers on the team",
-            "Drove AI adoption across the dev workflow",
+            "Reservations team on a property management system used by large hotel chains — the full reservation lifecycle from creation through edits and splitting to cancellation",
+            "Built a complex, highly interactive UI that hotel staff use to work with large volumes of reservations",
+            "Led the refactor of one of the most critical parts of the system — the real-time reservations timeline for large hotels — focused on performance: virtualization, lazy loading and architectural changes to handle very large data sets",
+            "Embedded with other teams as a front-end specialist — automations and architectural changes that cut new-feature delivery down to weeks",
+            "Mentored junior developers across teams, ran technical interviews for front-end roles and drove AI adoption in the dev workflow",
           ],
         },
         {
@@ -122,9 +131,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
           role: "Senior Front-end Developer",
           company: "Rohlik.cz",
           bullets: [
-            "Built storefront, checkout and payment integrations",
-            "Multi-tenant architecture serving multiple markets",
-            "Large-scale refactor & modernization, strong unit/E2E coverage",
+            "Customer-facing side of the Rohlik.cz e-commerce platform — owned key parts of the app including checkout and payment gateway integrations",
+            "Multi-tenant architecture supporting multiple markets and deployments",
+            "Large-scale refactors, performance optimization and gradual modernization of the front-end stack",
+            "Automated order-delivery processes and kept strong test coverage with unit and end-to-end tests",
+            "Ran technical trainings and shared front-end best practices with the team and developers across the company",
           ],
         },
         {
@@ -144,11 +155,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Social media analytics platform — React, Redux, Node.js, CoffeeScript",
           ],
         },
+      ],
+      education: [
         {
-          period: "2011 – 2017",
-          role: "Software Engineering",
+          period: "2014 – 2017",
+          role: "Master's degree (Ing.) — Software Engineering",
           company: "University of West Bohemia, Pilsen",
-          bullets: ["Faculty of Applied Sciences"],
+          bullets: [
+            "Faculty of Applied Sciences, Department of Computer Science and Engineering",
+          ],
+        },
+        {
+          period: "2011 – 2014",
+          role: "Bachelor's degree (Bc.) — Computer Science",
+          company: "University of West Bohemia, Pilsen",
+          bullets: [
+            "Faculty of Applied Sciences, Department of Computer Science and Engineering",
+          ],
+        },
+        {
+          period: "2008 – 2011",
+          role: "Secondary school",
+          company: "Gymnázium Sušice",
+          bullets: [],
         },
       ],
     },
@@ -156,16 +185,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
       title: "Stack",
       groups: [
         {
-          label: "Core frontend",
-          items: ["TypeScript", "React", "Next.js", "Tanstack", "Styled-Components"],
+          label: "Core",
+          items: [
+            "TypeScript",
+            "React",
+            "Next.js",
+            "Tanstack",
+            "Tailwind",
+            "Node.js",
+            "Playwright",
+            "Jest",
+          ],
         },
         {
           label: "Delivery & tooling",
-          items: ["Node.js", "CI/CD", "Automation", "Unit/E2E testing"],
+          items: [
+            "Nx",
+            "Unit/E2E testing",
+            "CI/CD",
+            "Automation",
+            "Docker",
+            "Web hooks",
+          ],
         },
         {
           label: "Branching out",
-          items: ["Java/Spring", "AI Agents"],
+          items: ["Java/Spring", "PHP/Symfony", "AI Agents orchestrace"],
         },
       ],
     },
@@ -181,7 +226,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
           title: "Custom Websites",
           body: "Bespoke sites for small businesses — designed, built and shipped end to end.",
           caseTitle: "jachim-kucera-tesarstvi.cz",
-          caseDescription: "Site for a carpentry business — from design to deploy.",
+          caseDescription:
+            "Site for a carpentry business — from design to deploy.",
           caseLink: "Visit the site",
         },
         photography: {
@@ -249,7 +295,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       name: "Karel Zíbar",
       role: "Senior Frontend Developer",
       tagline:
-        "12+ let stavím rozhraní pro produkty s miliony uživatelů — a vedle toho si stavím vlastní AI agentní OS.",
+        "12+ let stavím webové aplikace používané i tisíci uživately — a vedle toho si stavím vlastní AI agentní OS.",
+      downloadCv: "Stáhnout životopis",
       scrollCue: "scroll",
     },
     about: {
@@ -260,15 +307,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
     timeline: {
       title: "Zkušenosti",
       expandHint: "Vyber položku a uvidíš detaily",
-      entries: [
+      careerTitle: "Kariéra",
+      educationTitle: "Studium",
+      career: [
         {
           period: "05/2023 – 04/2026",
           role: "Senior Front-end Developer",
           company: "Mews",
           bullets: [
-            "Vedl jsem refaktoring realtime timeline rezervací — virtualizace, lazy loading, výkon",
-            "Mentoroval jsem juniorní vývojáře v týmu",
-            "Prosazoval jsem AI nástroje ve vývojářském workflow",
+            "Tým Reservations v property management systému pro velké hotelové řetězce — celý životní cyklus rezervace od vytvoření přes úpravy a splitování až po zrušení",
+            "Vývoj komplexního, vysoce interaktivního rozhraní, které hotelový personál používá při práci s velkým množstvím rezervací",
+            "Vedl jsem refaktoring jedné z nejkritičtějších částí systému — real-time timeline rezervací pro velké hotely — s důrazem na výkon: virtualizace, lazy loading a změny architektury pro velmi velké objemy dat",
+            "Výpomoc jiným týmům jako front-end specialista — automatizace a architektonické úpravy, díky kterým šla nová funkcionalita vyvinout během několika týdnů",
+            "Mentoring juniornějších vývojářů napříč týmy, technické pohovory pro front-end pozice a prosazování AI nástrojů ve vývojářském workflow",
           ],
         },
         {
@@ -276,9 +327,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
           role: "Senior Front-end Developer",
           company: "Rohlik.cz",
           bullets: [
-            "Stavěl jsem storefront, checkout a platební integrace",
-            "Multi-tenant architektura pro několik trhů",
-            "Rozsáhlý refaktoring a modernizace, důraz na unit/E2E testy",
+            "Zákaznická část e-commerce platformy Rohlik.cz — vývoj a údržba klíčových částí aplikace včetně checkoutu a integrace s platebními branami",
+            "Multitenantní architektura podporující více trhů a nasazení",
+            "Rozsáhlé refaktoringy, optimalizace výkonu a postupná modernizace front-end technologií",
+            "Automatizace procesů kolem doručování objednávek a kvalitní testovací pokrytí pomocí unit a end-to-end testů",
+            "Technická školení a sdílení front-end best practices s týmem i vývojáři napříč firmou",
           ],
         },
         {
@@ -298,11 +351,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Platforma pro analytiku sociálních sítí — React, Redux, Node.js, CoffeeScript",
           ],
         },
+      ],
+      education: [
         {
-          period: "2011 – 2017",
-          role: "Softwarové inženýrství",
+          period: "2014 – 2017",
+          role: "Inženýrské studium (Ing.) — Softwarové inženýrství",
           company: "Západočeská univerzita v Plzni",
-          bullets: ["Fakulta aplikovaných věd"],
+          bullets: [
+            "Fakulta aplikovaných věd, Katedra informatiky a výpočetní techniky",
+          ],
+        },
+        {
+          period: "2011 – 2014",
+          role: "Bakalářské studium (Bc.) — Informatika",
+          company: "Západočeská univerzita v Plzni",
+          bullets: [
+            "Fakulta aplikovaných věd, Katedra informatiky a výpočetní techniky",
+          ],
+        },
+        {
+          period: "2008 – 2011",
+          role: "Středoškolské studium",
+          company: "Gymnázium Sušice",
+          bullets: [],
         },
       ],
     },
@@ -310,16 +381,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
       title: "Stack",
       groups: [
         {
-          label: "Frontend jádro",
-          items: ["TypeScript", "React", "Next.js", "Tanstack", "Styled-Components"],
+          label: "Jádro",
+          items: [
+            "TypeScript",
+            "React",
+            "Next.js",
+            "Tanstack",
+            "Tailwind",
+            "Node.js",
+            "Playwright",
+            "Jest",
+          ],
         },
         {
           label: "Nástroje a delivery",
-          items: ["Node.js", "CI/CD", "Automatizace", "Unit/E2E testy"],
+          items: [
+            "Nx",
+            "Unit/E2E testování",
+            "CI/CD",
+            "Automatizace",
+            "Docker",
+            "Web hooky",
+          ],
         },
         {
           label: "Kam rostu",
-          items: ["Java/Spring", "AI agenti"],
+          items: ["Java/Spring", "PHP/Symfony", "AI Agents orchestrace"],
         },
       ],
     },

@@ -76,6 +76,15 @@ export function Hero() {
         >
           {t.hero.tagline}
         </motion.p>
+        <motion.a
+          {...enter(0.7)}
+          href="/cv.pdf"
+          download="karel-zibar-cv.pdf"
+          className="mt-10 inline-flex items-center gap-3 rounded-sm border border-accent/40 px-6 py-3 font-mono text-sm text-accent transition-all duration-300 hover:border-accent hover:glow-accent-soft"
+        >
+          <span aria-hidden="true">↓</span>
+          {t.hero.downloadCv}
+        </motion.a>
       </motion.div>
 
       <motion.a

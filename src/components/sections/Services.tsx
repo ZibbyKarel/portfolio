@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import type { ReactNode } from "react";
+import { BrowserFrame } from "@/components/ui/BrowserFrame";
+import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
-import { BrowserFrame } from "@/components/ui/BrowserFrame";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import Image from "next/image";
+import type { ReactNode } from "react";
 
 function Card({
   title,
@@ -49,7 +49,13 @@ function Card({
 }
 
 /** Abstract page skeleton for the carpentry case card — warm wood tones. */
-function CarpentryMock({ hasScreenshot, alt }: { hasScreenshot: boolean; alt: string }) {
+function CarpentryMock({
+  hasScreenshot,
+  alt,
+}: {
+  hasScreenshot: boolean;
+  alt: string;
+}) {
   return (
     <BrowserFrame url="jachim-kucera-tesarstvi.cz">
       {hasScreenshot ? (
@@ -81,17 +87,13 @@ function CarpentryMock({ hasScreenshot, alt }: { hasScreenshot: boolean; alt: st
 function PhotoMock() {
   return (
     <BrowserFrame url="kzphoto.cz">
-      <div className="grid h-full grid-cols-3 gap-1.5 bg-void/60 p-3">
-        {[35, 20, 45, 25, 50, 30].map((tone, i) => (
-          <div
-            key={i}
-            className="rounded-sm"
-            style={{
-              background: `linear-gradient(135deg, rgb(255 255 255 / ${tone / 400}), rgb(255 255 255 / ${tone / 900}))`,
-            }}
-          />
-        ))}
-      </div>
+      <Image
+        src="/kzphoto.png"
+        height={150}
+        width={250}
+        alt="www.kzphoto.cz"
+        className="w-full"
+      />
     </BrowserFrame>
   );
 }
@@ -129,7 +131,11 @@ function CraftMock() {
   );
 }
 
-export function Services({ hasCaseScreenshot }: { hasCaseScreenshot: boolean }) {
+export function Services({
+  hasCaseScreenshot,
+}: {
+  hasCaseScreenshot: boolean;
+}) {
   const { t } = useLanguage();
   const cards = t.services.cards;
 

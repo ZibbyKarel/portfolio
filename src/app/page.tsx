@@ -1,10 +1,10 @@
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { About } from "@/components/sections/About";
+import { Hero } from "@/components/sections/Hero";
+import dynamic from "next/dynamic";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import dynamic from "next/dynamic";
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/sections/Hero";
-import { About } from "@/components/sections/About";
-import { Footer } from "@/components/Footer";
 
 // Below-the-fold sections are code-split so the animation-heavy hero
 // isn't competing with their JS on initial load. They still SSR.

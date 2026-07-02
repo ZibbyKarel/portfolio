@@ -15,21 +15,71 @@ import type { TimelineEntry } from "@/lib/i18n/dictionaries";
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as const;
 
+// Career draws in the signature cyan, education in violet. Tailwind needs
+// the class names spelled out, hence the static map instead of interpolation.
+type Tone = "accent" | "violet";
+
+const TONES: Record<
+  Tone,
+  {
+    dotOpen: string;
+    dotClosed: string;
+    hoverTitle: string;
+    marker: string;
+    rail: string;
+    trackTitle: string;
+  }
+> = {
+  accent: {
+    dotOpen: "border-accent bg-accent glow-accent",
+    dotClosed: "border-accent/60 bg-void glow-accent-soft",
+    hoverTitle: "group-hover:text-accent",
+    marker: "text-accent",
+    rail: "from-accent via-accent to-accent/30",
+    trackTitle: "text-accent",
+  },
+  violet: {
+    dotOpen: "border-violet bg-violet glow-violet",
+    dotClosed: "border-violet/60 bg-void glow-violet-soft",
+    hoverTitle: "group-hover:text-violet",
+    marker: "text-violet",
+    rail: "from-violet via-violet to-violet/30",
+    trackTitle: "text-violet",
+  },
+};
+
 function TimelineNode({
   entry,
-  index,
+  tone,
+  contentId,
   open,
   onToggle,
   onHover,
 }: {
   entry: TimelineEntry;
-  index: number;
+  tone: Tone;
+  contentId: string;
   open: boolean;
   onToggle: () => void;
-  onHover: (index: number | null) => void;
+  onHover: (hovering: boolean) => void;
 }) {
   const reduceMotion = useReducedMotion();
-  const contentId = `timeline-details-${index}`;
+  const tones = TONES[tone];
+  const expandable = entry.bullets.length > 0;
+
+  const heading = (
+    <>
+      <p className="font-mono text-xs tracking-wider text-faint">
+        {entry.period}
+      </p>
+      <h3
+        className={`mt-1.5 text-xl font-semibold tracking-tight text-ink transition-colors md:text-2xl ${tones.hoverTitle}`}
+      >
+        {entry.company}
+      </h3>
+      <p className="mt-0.5 font-mono text-sm text-ghost">{entry.role}</p>
+    </>
+  );
 
   return (
     <motion.li
@@ -38,8 +88,8 @@ function TimelineNode({
       viewport={{ once: true, margin: "-96px" }}
       transition={{ duration: reduceMotion ? 0.2 : 0.55, ease: EASE }}
       className="relative pl-12 pb-4 md:pl-20"
-      onMouseEnter={() => onHover(index)}
-      onMouseLeave={() => onHover(null)}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
     >
       {/* Node dot sits on the rail; glows once its entry is in view */}
       <motion.span
@@ -49,30 +99,26 @@ function TimelineNode({
         viewport={{ once: true, margin: "-96px" }}
         transition={{ duration: 0.4, delay: 0.15, ease: EASE }}
         className={`absolute left-[9px] top-2.5 h-3.5 w-3.5 rounded-full border-2 transition-all duration-300 md:left-[21px] ${
-          open
-            ? "border-accent bg-accent glow-accent"
-            : "border-accent/60 bg-void glow-accent-soft"
+          open && expandable ? tones.dotOpen : tones.dotClosed
         }`}
       />
 
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        aria-controls={contentId}
-        className="group w-full rounded-sm py-1 text-left"
-      >
-        <p className="font-mono text-xs tracking-wider text-faint">
-          {entry.period}
-        </p>
-        <h3 className="mt-1.5 text-xl font-semibold tracking-tight text-ink transition-colors group-hover:text-accent md:text-2xl">
-          {entry.company}
-        </h3>
-        <p className="mt-0.5 font-mono text-sm text-ghost">{entry.role}</p>
-      </button>
+      {expandable ? (
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={contentId}
+          className="group w-full rounded-sm py-1 text-left"
+        >
+          {heading}
+        </button>
+      ) : (
+        <div className="group py-1">{heading}</div>
+      )}
 
       <AnimatePresence initial={false}>
-        {open && (
+        {expandable && open && (
           <motion.div
             id={contentId}
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
@@ -91,7 +137,10 @@ function TimelineNode({
                   key={bullet}
                   className="flex gap-3 text-sm leading-relaxed text-ghost"
                 >
-                  <span aria-hidden="true" className="font-mono text-accent">
+                  <span
+                    aria-hidden="true"
+                    className={`font-mono ${tones.marker}`}
+                  >
                     ▸
                   </span>
                   {bullet}
@@ -105,12 +154,24 @@ function TimelineNode({
   );
 }
 
-export function Timeline() {
-  const { t } = useLanguage();
+function TimelineTrack({
+  trackId,
+  title,
+  entries,
+  tone,
+  defaultPinned,
+}: {
+  trackId: string;
+  title: string;
+  entries: TimelineEntry[];
+  tone: Tone;
+  defaultPinned: number | null;
+}) {
   const reduceMotion = useReducedMotion();
   const listRef = useRef<HTMLOListElement>(null);
-  const [pinnedIndex, setPinnedIndex] = useState<number | null>(0);
+  const [pinnedIndex, setPinnedIndex] = useState<number | null>(defaultPinned);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const tones = TONES[tone];
 
   // The connecting line draws as the list scrolls through the viewport.
   const { scrollYProgress } = useScroll({
@@ -123,14 +184,15 @@ export function Timeline() {
   });
 
   return (
-    <Section id="experience">
-      <SectionHeading path="experience" title={t.timeline.title} />
-      <p className="mt-4 font-mono text-xs text-faint">
-        {t.timeline.expandHint}
-      </p>
+    <div className="mt-14 first:mt-0">
+      <h3
+        className={`font-mono text-sm uppercase tracking-[0.25em] ${tones.trackTitle}`}
+      >
+        {title}
+      </h3>
 
-      <ol ref={listRef} className="relative mt-14 space-y-10">
-        {/* Rail: faint track + accent line that draws with scroll */}
+      <ol ref={listRef} className="relative mt-8 space-y-10">
+        {/* Rail: faint track + tone-colored line that draws with scroll */}
         <span
           aria-hidden="true"
           className="absolute bottom-2 left-[15px] top-2 w-px bg-line md:left-[27px]"
@@ -138,22 +200,53 @@ export function Timeline() {
         <motion.span
           aria-hidden="true"
           style={{ scaleY: reduceMotion ? 1 : lineProgress }}
-          className="absolute bottom-2 left-[15px] top-2 w-px origin-top bg-gradient-to-b from-accent via-accent to-accent/30 md:left-[27px]"
+          className={`absolute bottom-2 left-[15px] top-2 w-px origin-top bg-gradient-to-b md:left-[27px] ${tones.rail}`}
         />
 
-        {t.timeline.entries.map((entry, index) => (
+        {entries.map((entry, index) => (
           <TimelineNode
-            key={entry.company}
+            key={`${entry.company}-${entry.period}`}
             entry={entry}
-            index={index}
+            tone={tone}
+            contentId={`timeline-${trackId}-details-${index}`}
             open={pinnedIndex === index || hoverIndex === index}
             onToggle={() =>
               setPinnedIndex((current) => (current === index ? null : index))
             }
-            onHover={setHoverIndex}
+            onHover={(hovering) => setHoverIndex(hovering ? index : null)}
           />
         ))}
       </ol>
+    </div>
+  );
+}
+
+export function Timeline() {
+  const { t } = useLanguage();
+
+  return (
+    <Section id="experience">
+      <SectionHeading path="experience" title={t.timeline.title} />
+      <p className="mt-4 font-mono text-xs text-faint">
+        {t.timeline.expandHint}
+      </p>
+
+      <div className="mt-14">
+        <TimelineTrack
+          trackId="career"
+          title={t.timeline.careerTitle}
+          entries={t.timeline.career}
+          tone="accent"
+          defaultPinned={0}
+        />
+        <TimelineTrack
+          trackId="education"
+          title={t.timeline.educationTitle}
+          entries={t.timeline.education}
+          tone="violet"
+          defaultPinned={null}
+        />
+      </div>
     </Section>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import type { Locale } from "@/lib/i18n/dictionaries";
+import { Logo } from "./Logo";
 
 const NAV_IDS = [
   "about",
@@ -23,7 +24,7 @@ export function Header() {
           className="font-mono text-sm text-ink transition-colors hover:text-accent"
           aria-label="Karel Zíbar — top of page"
         >
-          kz<span className="text-accent">_</span>
+          <Logo />
         </a>
 
         <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
@@ -50,9 +51,7 @@ export function Header() {
               onClick={() => setLocale(code)}
               aria-pressed={locale === code}
               className={`rounded-sm px-2 py-1 uppercase transition-colors ${
-                locale === code
-                  ? "text-accent"
-                  : "text-faint hover:text-ghost"
+                locale === code ? "text-accent" : "text-faint hover:text-ghost"
               }`}
             >
               {code === "cs" ? "cz" : "en"}
