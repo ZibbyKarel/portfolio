@@ -6,6 +6,9 @@ import { About } from "@/components/sections/About";
 import { Timeline } from "@/components/sections/Timeline";
 import { Skills } from "@/components/sections/Skills";
 import { Services } from "@/components/sections/Services";
+import { Zibby } from "@/components/sections/Zibby";
+import { Contact } from "@/components/sections/Contact";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   const hasPhoto = existsSync(join(process.cwd(), "public", "headshot.jpg"));
@@ -22,8 +25,10 @@ export default function Home() {
         <Timeline />
         <Skills />
         <Services hasCaseScreenshot={hasCaseScreenshot} />
-        {/* Coming in later phases: zibby, contact */}
+        <Zibby />
+        <Contact />
       </main>
+      <Footer />
     </div>
   );
 }
