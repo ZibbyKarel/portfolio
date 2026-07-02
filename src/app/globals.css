@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Near-black with a blue/violet undertone — never pure black */
+  --color-void: #0a0a0f;
+  --color-panel: #101018;
+  --color-panel-bright: #16161f;
+  --color-ink: #e8e8f0;
+  --color-ghost: #8f8fa3;
+  --color-faint: #55556a;
+  --color-line: rgb(255 255 255 / 0.07);
+  /* Single accent: signal cyan. Glow, hover, CTA, timeline nodes — nothing else. */
+  --color-accent: #00d4ff;
+  --color-accent-dim: rgb(0 212 255 / 0.35);
+  --color-accent-faint: rgb(0 212 255 / 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-void);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Signature glow used on timeline nodes, CTAs and hovered cards */
+@utility glow-accent {
+  box-shadow: 0 0 20px var(--color-accent-dim), 0 0 60px var(--color-accent-faint);
+}
+
+@utility glow-accent-soft {
+  box-shadow: 0 0 32px var(--color-accent-faint);
+}
+
+/* Hairline divider between sections */
+@utility hairline {
+  border-color: var(--color-line);
 }
