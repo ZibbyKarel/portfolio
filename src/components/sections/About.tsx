@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { GitHubStats } from "@/components/GitHubStats";
 
 /**
  * Headshot with a duotone treatment: grayscale + contrast underneath,
@@ -69,6 +70,7 @@ export function About({ hasPhoto }: { hasPhoto: boolean }) {
           <p className="text-lg leading-relaxed text-ghost md:text-xl">
             {t.about.body}
           </p>
+          <GitHubStats />
         </Reveal>
         <Reveal delay={0.2} className="justify-self-center md:justify-self-end">
           <Headshot hasPhoto={hasPhoto} alt={t.about.photoAlt} />

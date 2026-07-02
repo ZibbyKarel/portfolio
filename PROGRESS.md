@@ -23,6 +23,18 @@ Source specs: `claude-code-prompt.md` (final prompt — wins on conflicts) + `po
 - [x] **Phase 3 — Timeline**: scroll-driven line draw, glowing nodes, expandable highlights, newest-first
 - [x] **Phase 4 — Skills + What I Do**: grouped animated stack pills; 4 pillar cards incl. jachim-kucera-tesarstvi.cz case card + kzphoto.cz teaser
 - [x] **Phase 5 — Z.I.B.B.Y + Contact + Footer**: terminal-style spotlight (media-extensible), contact form → API route → Resend, direct contact fallback, minimal footer
-- [ ] **Phase 6 — Polish**: a11y audit, reduced-motion audit, perf (lazy below-fold), metadata/OG, GitHub stats widget, production build verification
+- [x] **Phase 6 — Polish**: a11y audit, reduced-motion audit, perf (lazy below-fold), metadata/OG, GitHub stats widget, production build verification
+
+## Verification (Phase 6)
+
+- Production build + ESLint clean; page, `/api/contact` (400/503/200 honeypot), `/opengraph-image`, `/icon`, `/robots.txt` all smoke-tested against `next start`
+- Screenshot QA via headless Chromium: desktop (all 7 sections), mobile 390px (hero/timeline/services/contact), CZ locale toggle incl. Czech typing animation
+
+## Follow-ups for Karel
+
+- Drop `public/headshot.jpg` and `public/case-tesarstvi.jpg` to replace styled placeholders (picked up automatically)
+- Set `RESEND_API_KEY` (+ optional `CONTACT_FROM_EMAIL`/`CONTACT_TO_EMAIL`) in Vercel for the contact form
+- After first deploy, set `NEXT_PUBLIC_SITE_URL` to the production domain for absolute OG URLs
+- Z.I.B.B.Y demo video slot is documented in `src/components/sections/Zibby.tsx`
 
 One commit per completed phase.

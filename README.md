@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Karel Zíbar — Portfolio
 
-## Getting Started
+Personal portfolio site for a senior frontend developer: dark, techy, minimal — built to demonstrate frontend craft, not just describe it.
 
-First, run the development server:
+## Stack
+
+- **Next.js** (App Router) + **TypeScript**
+- **Tailwind 4** for styling
+- **Framer Motion** — parallax hero, scroll-driven timeline, reveals, micro-interactions
+- **TanStack Query** — live GitHub stats widget
+- **Resend** — contact form email delivery via `/api/contact`
+- Custom lightweight CZ/EN i18n context persisted in `localStorage`
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contact form
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` to `.env.local` and set `RESEND_API_KEY` (plus optional `CONTACT_FROM_EMAIL` / `CONTACT_TO_EMAIL`). Without a key the API route responds 503 and the form shows the fallback error with direct contact info.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Image slots
 
-## Learn More
+Two images are optional and picked up automatically at build time when dropped into `public/`:
 
-To learn more about Next.js, take a look at the following resources:
+- `public/headshot.jpg` — About-section portrait (duotone treatment applied in CSS); a styled monogram placeholder renders until then
+- `public/case-tesarstvi.jpg` — screenshot for the jachim-kucera-tesarstvi.cz case card; a CSS mockup renders until then
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Z.I.B.B.Y section has a documented media slot in `src/components/sections/Zibby.tsx` for a future demo video.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
+Vercel — no special configuration; set the Resend env vars in the project settings. After the first deploy, set `NEXT_PUBLIC_SITE_URL` (or update `metadataBase` in `src/app/layout.tsx`) to the production domain so Open Graph image URLs resolve absolutely.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Build notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Phase-by-phase build log lives in `PROGRESS.md`. Local agent skills used during the build are in `.agents/skills/`.
