@@ -102,3 +102,14 @@ body {
   background-size: 34px 34px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent);
 }
+
+/* Accent-lit dot grid, revealed only around the cursor. Same grid as
+   dot-grid so the cyan dots register exactly over the faint white ones. */
+@utility dot-grid-lit {
+  background-image: radial-gradient(
+    circle,
+    var(--color-accent) 1px,
+    transparent 1px
+  );
+  background-size: 34px 34px;
+}

@@ -1,15 +1,21 @@
 "use client";
 
 import { useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import {
   motion,
+  useMotionTemplate,
+  useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as const;
+// Spring that lets the cursor light trail rather than snap to the pointer.
+const CURSOR_SPRING = { stiffness: 140, damping: 22, mass: 0.4 } as const;
 
 export function Hero() {
   const { t } = useLanguage();
@@ -25,6 +31,27 @@ export function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  // Cursor-reactive spotlight. Position is tracked as a percentage of the
+  // hero box so it stays correct at any viewport size; springs smooth the
+  // motion and `glow` fades the whole effect in/out as the pointer enters
+  // and leaves. Values start centred so the first move eases in gently.
+  const pointerX = useMotionValue(50);
+  const pointerY = useMotionValue(50);
+  const x = useSpring(pointerX, CURSOR_SPRING);
+  const y = useSpring(pointerY, CURSOR_SPRING);
+  const glow = useSpring(0, { stiffness: 90, damping: 24 });
+
+  const spotlight = useMotionTemplate`radial-gradient(460px circle at ${x}% ${y}%, rgb(0 212 255 / 0.10), transparent 62%)`;
+  const litMask = useMotionTemplate`radial-gradient(240px circle at ${x}% ${y}%, black, transparent 68%)`;
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set(((event.clientX - rect.left) / rect.width) * 100);
+    pointerY.set(((event.clientY - rect.top) / rect.height) * 100);
+    glow.set(1);
+  };
+  const handlePointerLeave = () => glow.set(0);
+
   const enter = (delay: number) => ({
     initial: { opacity: 0, y: reduceMotion ? 0 : 24 },
     animate: { opacity: 1, y: 0 },
@@ -35,6 +62,8 @@ export function Hero() {
     <section
       ref={ref}
       aria-label={t.hero.name}
+      onPointerMove={reduceMotion ? undefined : handlePointerMove}
+      onPointerLeave={reduceMotion ? undefined : handlePointerLeave}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
     >
       <motion.div
@@ -46,6 +75,20 @@ export function Hero() {
         <div className="absolute left-[8%] top-[12%] h-[45vmax] w-[45vmax] rounded-full bg-accent/[0.05] blur-3xl motion-safe:animate-[drift-a_26s_ease-in-out_infinite_alternate]" />
         <div className="absolute bottom-[8%] right-[4%] h-[38vmax] w-[38vmax] rounded-full bg-[#5b4bd4]/[0.07] blur-3xl motion-safe:animate-[drift-b_32s_ease-in-out_infinite_alternate]" />
       </motion.div>
+
+      {/* Cursor-reactive layer: a soft cyan spotlight plus the dot grid
+          lighting up in accent colour, both trailing the pointer. Kept out
+          of the parallax wrapper so it stays glued to the real cursor, and
+          skipped entirely when the user prefers reduced motion. */}
+      {!reduceMotion && (
+        <motion.div aria-hidden="true" className="absolute inset-0" style={{ opacity: glow }}>
+          <motion.div className="absolute inset-0" style={{ background: spotlight }} />
+          <motion.div
+            className="absolute inset-0 dot-grid-lit"
+            style={{ maskImage: litMask, WebkitMaskImage: litMask }}
+          />
+        </motion.div>
+      )}
 
       <motion.div
         className="relative z-10 flex max-w-3xl flex-col items-center text-center"
